@@ -4,7 +4,9 @@ This is a project created for learning hexagonal architecture.
 
 ## Usage
 
-### With Dummy Store
+### Node - Express
+
+#### With Dummy Store
 
 1. Install dependencies
 
@@ -12,7 +14,7 @@ This is a project created for learning hexagonal architecture.
 npm install
 ```
 
-2. Uncomment lines 14-16 in ./src/apiRoutes.ts.
+2. Uncomment lines 14-16 in ./src/main/express/apiRoutes.ts.
 
 ```typescript
 // dammy Todo store
@@ -21,7 +23,7 @@ const dummyTodoStoreAdapter = new DummyTodoStoreAdapter(DummyTodoStore);
 const addTodoUseCase = new AddTodo(dummyTodoStoreAdapter);
 ```
 
-3. Comment out lines 19-21 in ./src/apiRoutes.ts.
+3. Comment out lines 19-21 in ./src/main/express/apiRoutes.ts.
 
 ```typescript
 // sqlite Todo store
@@ -33,10 +35,10 @@ const addTodoUseCase = new AddTodo(dummyTodoStoreAdapter);
 4. Start Dev Server
 
 ```sh
-npm run dev
+npm run express:dev
 ```
 
-### With Sqlite
+#### With Sqlite
 
 1. Install dependencies
 
@@ -44,7 +46,7 @@ npm run dev
 npm install
 ```
 
-2. Comment out lines 14-16 in ./src/apiRoutes.ts.
+2. Comment out lines 14-16 in ./src/main/express/apiRoutes.ts.
 
 ```typescript
 // dammy Todo store
@@ -53,7 +55,7 @@ npm install
 // const addTodoUseCase = new AddTodo(dummyTodoStoreAdapter);
 ```
 
-3. Uncomment lines 19-21 in ./src/apiRoutes.ts.
+3. Uncomment lines 19-21 in ./src/main/express/apiRoutes.ts.
 
 ```typescript
 // sqlite Todo store
@@ -71,5 +73,88 @@ npm run migrate
 5. Start Dev Server
 
 ```sh
-npm run dev
+npm run express:dev
+```
+
+### Hono - Cloudflare Workers
+
+1. Install dependencies
+
+```sh
+npm install
+```
+
+2. Start Dev Server
+
+```sh
+npm run hono:dev
+```
+
+## Entity Relationships and Dependencies
+
+```mermaid
+classDiagram
+    direction LR
+
+    class AddTodoRequest {
+        +string title
+        +string description
+    }
+
+    class AddTodoResponse {
+        +Todo[] todo_list
+    }
+
+    class Todo {
+        +string id
+        +string title
+        +string description
+        +string status
+    }
+
+    class TodoStorePort {
+        <<interface>>
+        +save(Todo todo) Todo[]
+    }
+
+    class AddTodoPort {
+        <<interface>>
+        +invoke(AddTodoRequest params) AddTodoResponse
+    }
+
+    class DummyTodoStoreAdapter {
+        -Todo[] store
+        +save(Todo todo) Todo[]
+    }
+
+    class SqLiteTodoStoreAdapter {
+        -PrismaClient store
+        +save(Todo todo) Promise<Todo[]>
+    }
+
+    class AddTodo {
+        -TodoStorePort store
+        +invoke(AddTodoRequest params) Promise<AddTodoResponse>
+    }
+
+    class ExpressAddTodoAdapter {
+        -AddTodoPort usecase
+        +getHandler() RequestHandler
+    }
+
+    class CloudflareAddTodoAdapter {
+        -AddTodoPort usecase
+        +getHandler() Hono
+    }
+
+    AddTodoRequest --> AddTodo
+    AddTodoResponse --> AddTodo
+    Todo --> AddTodo
+    TodoStorePort <|.. DummyTodoStoreAdapter
+    TodoStorePort <|.. SqLiteTodoStoreAdapter
+    AddTodoPort <|.. AddTodo
+    ExpressAddTodoAdapter --> AddTodoPort
+    CloudflareAddTodoAdapter --> AddTodoPort
+    AddTodo --> TodoStorePort
+
 ```
