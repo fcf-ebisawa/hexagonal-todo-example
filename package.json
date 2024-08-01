@@ -1,0 +1,32 @@
+{
+  "name": "hexagonal-todo-express",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "license": "AGPL-version-3.0",
+  "private": false,
+  "engines": {
+    "node": ">= 14.0.0",
+    "npm": ">= 6.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "scripts": {
+    "dev": "vite",
+    "test": ""
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "uuid": "^10.0.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/uuid": "^10.0.0",
+    "typescript": "^5.5.4",
+    "vite": "^4.0.0",
+    "vite-plugin-node": "^3.1.0"
+  }
+}
