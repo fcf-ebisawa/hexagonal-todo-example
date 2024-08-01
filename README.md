@@ -1,6 +1,6 @@
 # hexagonal-todo-express
 
-This is a sample project to understand hexagonal architecture.
+This is a project created for learning hexagonal architecture.
 
 ## Usage
 
