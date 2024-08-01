@@ -5,9 +5,9 @@ import { AddTodoPort } from '../../ports/input';
 /**
  * Adapter class to handle HTTP requests for adding Todo items.
  */
-export class AddTodoAdapter {
+export class ExpressAddTodoAdapter {
   /**
-   * Constructs an instance of AddTodoAdapter.
+   * Constructs an instance of ExpressAddTodoAdapter.
    *
    * @param usecase - The use case for adding a Todo item.
    */

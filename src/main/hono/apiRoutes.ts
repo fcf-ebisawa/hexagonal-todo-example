@@ -1,14 +1,14 @@
-import { Router } from 'express';
-import { Todo } from './domain';
+import { Hono } from 'hono';
+import { Todo } from '../../domain';
 import {
   DummyTodoStoreAdapter,
   SqLiteTodoStoreAdapter,
-} from './adapters/output';
-import { AddTodo } from './usecases';
-import { AddTodoAdapter } from './adapters/input';
-import { PrismaClient } from '@prisma/client';
+} from '../../adapters/output';
+import { AddTodo } from '../../usecases';
+import { CloudflareAddTodoAdapter } from '../../adapters/input';
+import { PrismaClient } from '@prisma/client/edge';
 
-const router = Router();
+const app = new Hono();
 
 // dammy Todo store
 const DummyTodoStore: Todo[] = [];
@@ -21,6 +21,9 @@ const addTodoUseCase = new AddTodo(dummyTodoStoreAdapter);
 // const addTodoUseCase = new AddTodo(sqliteTodoStoreAdapter);
 
 // /api/add-todo
-router.post('/add-todo', new AddTodoAdapter(addTodoUseCase).getHandler());
+app.route(
+  '/add-todo',
+  new CloudflareAddTodoAdapter(addTodoUseCase).getHandler()
+);
 
-export default router;
+export default app;
