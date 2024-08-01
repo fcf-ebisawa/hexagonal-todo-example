@@ -7,9 +7,9 @@ import { PrismaClient } from '@prisma/client';
  */
 export class SqLiteTodoStoreAdapter implements TodoStorePort {
   /**
-   * Constructs an instance of DummyTodoStoreAdapter.
+   * Constructs an instance of SqLiteTodoStoreAdapter.
    *
-   * @param store - The initial array of Todo items.
+   * @param store - The prisma client.
    */
   constructor(private store: PrismaClient) {}
 
