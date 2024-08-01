@@ -1,4 +1,4 @@
-# hexagonal-todo-express
+# hexagonal-todo-example
 
 This is a project created for learning hexagonal architecture.
 
