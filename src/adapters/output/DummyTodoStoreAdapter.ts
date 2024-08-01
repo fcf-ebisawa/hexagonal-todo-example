@@ -4,9 +4,9 @@ import { TodoStorePort } from '../../ports/output';
 /**
  * Adapter class to handle Todo storage operations.
  */
-export class TodoStoreAdapter implements TodoStorePort {
+export class DummyTodoStoreAdapter implements TodoStorePort {
   /**
-   * Constructs an instance of TodoStoreAdapter.
+   * Constructs an instance of DummyTodoStoreAdapter.
    *
    * @param store - The initial array of Todo items.
    */
