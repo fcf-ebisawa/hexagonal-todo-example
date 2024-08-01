@@ -10,5 +10,5 @@ export interface AddTodoPort {
    * @param params - The parameters required to add a todo item.
    * @returns The response containing the updated list of todo items.
    */
-  invoke(params: AddTodoRequest): AddTodoResponse;
+  invoke(params: AddTodoRequest): Promise<AddTodoResponse>;
 }

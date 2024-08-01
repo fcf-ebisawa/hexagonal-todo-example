@@ -10,5 +10,5 @@ export interface TodoStorePort {
    * @param todo - The Todo item to be saved.
    * @returns An array of all saved Todo items.
    */
-  save(todo: Todo): Todo[];
+  save(todo: Todo): Todo[] | Promise<Todo[]>;
 }

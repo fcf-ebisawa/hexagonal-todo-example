@@ -1,16 +1,24 @@
 import { Router } from 'express';
 import { Todo } from './domain';
-import { DummyTodoStoreAdapter } from './adapters/output';
-import { AddTodo } from './usecases/AddTodo';
-import { AddTodoAdapter } from './adapters/input/AddTodoAdapter';
+import {
+  DummyTodoStoreAdapter,
+  SqLiteTodoStoreAdapter,
+} from './adapters/output';
+import { AddTodo } from './usecases';
+import { AddTodoAdapter } from './adapters/input';
+import { PrismaClient } from '@prisma/client';
 
 const router = Router();
 
 // dammy Todo store
 const DummyTodoStore: Todo[] = [];
-// adapter for dammy Todo store
-const todoStoreAdapter = new DummyTodoStoreAdapter(DummyTodoStore);
-const addTodoUseCase = new AddTodo(todoStoreAdapter);
+const dummyTodoStoreAdapter = new DummyTodoStoreAdapter(DummyTodoStore);
+const addTodoUseCase = new AddTodo(dummyTodoStoreAdapter);
+
+// sqlite Todo store
+// const prisma = new PrismaClient();
+// const sqliteTodoStoreAdapter = new SqLiteTodoStoreAdapter(prisma);
+// const addTodoUseCase = new AddTodo(sqliteTodoStoreAdapter);
 
 // /api/add-todo
 router.post('/add-todo', new AddTodoAdapter(addTodoUseCase).getHandler());

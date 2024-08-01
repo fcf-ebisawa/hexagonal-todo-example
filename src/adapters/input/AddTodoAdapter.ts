@@ -19,7 +19,7 @@ export class AddTodoAdapter {
    * @returns The request handler.
    */
   getHandler(): RequestHandler {
-    return (req, res, next) => {
+    return async (req, res, next) => {
       try {
         const params = req.body as AddTodoRequest;
         if (!params.title) {
@@ -28,7 +28,7 @@ export class AddTodoAdapter {
           return;
         }
 
-        const response = this.usecase.invoke(params);
+        const response = await this.usecase.invoke(params);
         res.status(201).json(response);
         next();
       } catch (e) {

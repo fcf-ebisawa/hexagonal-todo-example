@@ -20,7 +20,7 @@ export class AddTodo implements AddTodoPort {
    * @param params - The request parameters for adding a new Todo.
    * @returns The response containing the updated list of Todo items.
    */
-  invoke(params: AddTodoRequest): AddTodoResponse {
+  async invoke(params: AddTodoRequest): Promise<AddTodoResponse> {
     const { title, description } = params;
     if (!title) {
       throw new Error('title is required.');
@@ -31,7 +31,7 @@ export class AddTodo implements AddTodoPort {
       description,
       status: 'Not yet',
     };
-    const todoList = this.store.save(newTodo);
+    const todoList = await this.store.save(newTodo);
     return { todo_list: todoList };
   }
 }
